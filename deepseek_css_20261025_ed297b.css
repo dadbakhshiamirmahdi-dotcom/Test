@@ -1,0 +1,383 @@
+/* ============================================================
+   تلگرام — کلاس هوش مصنوعی استاد قیصری
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --tg-blue: #2aabee;
+  --tg-blue-dark: #229ed9;
+  --tg-blue-light: #54b9f0;
+  --tg-header: #517da2;
+  --tg-bg: #dfe6ec;
+  --tg-in: #ffffff;
+  --tg-out: #effdde;
+  --tg-text: #000;
+  --tg-gray: #707579;
+  --tg-meta: #a0a8ae;
+  --tg-pattern: #dfe6ec;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+  background: #0e1621;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  direction: rtl;
+  color: var(--tg-text);
+}
+
+/* ================= اپ ================= */
+.telegram {
+  width: 100%;
+  max-width: 480px;
+  height: 100vh;
+  max-height: 880px;
+  background: var(--tg-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+  background-image:
+    radial-gradient(circle at 20% 15%, rgba(255,255,255,0.35) 0, transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.25) 0, transparent 30%);
+}
+
+/* ================= هدر ================= */
+.tg-header {
+  background: var(--tg-header);
+  color: #fff;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  z-index: 10;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
+.tg-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.tg-back {
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+  opacity: 0.9;
+}
+
+.tg-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tg-blue-light), var(--tg-blue));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.tg-header-text { min-width: 0; }
+
+.tg-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tg-verified { flex-shrink: 0; }
+
+.tg-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.85;
+}
+
+.tg-header-left {
+  display: flex;
+  gap: 16px;
+  font-size: 1.15rem;
+  opacity: 0.9;
+}
+
+.tg-ic { cursor: pointer; }
+
+/* ================= پیام‌ها ================= */
+.tg-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  scroll-behavior: smooth;
+}
+
+.tg-messages::-webkit-scrollbar { width: 6px; }
+.tg-messages::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.18);
+  border-radius: 3px;
+}
+
+/* تاریخ */
+.tg-chip {
+  align-self: center;
+  background: rgba(0,0,0,0.22);
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 3px 14px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+/* ردیف پیام */
+.tg-row {
+  display: flex;
+  width: 100%;
+}
+
+.tg-in { justify-content: flex-start; }
+.tg-out { justify-content: flex-end; }
+
+/* حباب */
+.tg-bubble {
+  max-width: 78%;
+  padding: 7px 11px 6px;
+  border-radius: 12px;
+  font-size: 0.93rem;
+  line-height: 1.7;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.13);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+.tg-in .tg-bubble {
+  background: var(--tg-in);
+  border-top-left-radius: 4px;
+}
+
+.tg-out .tg-bubble {
+  background: var(--tg-out);
+  border-top-right-radius: 4px;
+}
+
+/* حباب‌های عریض (کارت/فرم) */
+.tg-wide { max-width: 88%; }
+
+/* فرستنده */
+.tg-author {
+  color: var(--tg-blue-dark);
+  font-weight: 700;
+  font-size: 0.82rem;
+  margin-bottom: 2px;
+}
+
+/* متن */
+.tg-text { font-size: 0.93rem; }
+
+/* ساعت */
+.tg-time {
+  font-size: 0.68rem;
+  color: var(--tg-meta);
+  text-align: left;
+  margin-top: 3px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+
+.tg-ticks { color: var(--tg-blue); font-weight: 700; letter-spacing: -1px; }
+
+/* ================= کارت ================= */
+.tg-card {
+  background: #f4f8fb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 6px 0 2px;
+  border-right: 3px solid var(--tg-blue);
+}
+
+.tg-card-head {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--tg-blue-dark);
+  margin-bottom: 6px;
+}
+
+.tg-card ul { list-style: none; }
+
+.tg-card li {
+  font-size: 0.86rem;
+  padding: 2px 0;
+}
+
+/* ================= آمار ================= */
+.tg-stats {
+  display: flex;
+  gap: 12px;
+  background: #f4f8fb;
+  border-radius: 10px;
+  padding: 9px 12px;
+  margin: 6px 0 2px;
+  justify-content: space-around;
+}
+
+.tg-stats div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tg-stats b { color: var(--tg-blue-dark); font-size: 1.05rem; }
+.tg-stats span { font-size: 0.68rem; color: var(--tg-gray); }
+
+/* ================= دکمه در حباب ================= */
+.tg-action {
+  display: block;
+  text-align: center;
+  background: linear-gradient(135deg, var(--tg-blue), var(--tg-blue-dark));
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  margin: 7px 0 3px;
+  transition: 0.2s;
+}
+
+.tg-action:hover { opacity: 0.9; }
+
+/* ================= فرم ================= */
+.tg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin: 6px 0 2px;
+}
+
+.tg-form input,
+.tg-form select {
+  width: 100%;
+  padding: 8px 11px;
+  border: 1.5px solid #d6dee5;
+  border-radius: 9px;
+  background: #f9fbfd;
+  font-family: "Vazirmatn", sans-serif;
+  font-size: 0.86rem;
+  direction: rtl;
+  text-align: right;
+  transition: 0.2s;
+}
+
+.tg-form input:focus,
+.tg-form select:focus {
+  outline: none;
+  border-color: var(--tg-blue);
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(42,171,238,0.18);
+}
+
+.tg-form button {
+  padding: 9px;
+  border: none;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--tg-blue), var(--tg-blue-dark));
+  color: #fff;
+  font-family: "Vazirmatn", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.tg-form button:hover { opacity: 0.9; }
+
+/* ================= نوار ورودی ================= */
+.tg-input {
+  background: #fff;
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  border-top: 1px solid #e3e8ee;
+}
+
+.tg-ic-btn {
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.65;
+  transition: 0.2s;
+}
+
+.tg-ic-btn:hover { opacity: 1; }
+
+.tg-input input {
+  flex: 1;
+  padding: 9px 14px;
+  border: none;
+  border-radius: 20px;
+  background: #f1f4f7;
+  font-family: "Vazirmatn", sans-serif;
+  font-size: 0.9rem;
+  direction: rtl;
+  text-align: right;
+  outline: none;
+  transition: 0.2s;
+}
+
+.tg-input input:focus { background: #eaf3f8; }
+
+.tg-send {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tg-blue), var(--tg-blue-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+  flex-shrink: 0;
+  transform: scaleX(-1); /* چون RTL است، فلش راست شود */
+}
+
+.tg-send:hover {
+  transform: scaleX(-1) scale(1.07);
+  box-shadow: 0 4px 12px rgba(42,171,238,0.45);
+}
+
+/* ================= دسکتاپ ================= */
+@media (min-width: 520px) {
+  .telegram {
+    border-radius: 14px;
+    margin: 20px 0;
+    height: calc(100vh - 40px);
+  }
+}
+
+/* ================= موبایل کوچک ================= */
+@media (max-width: 380px) {
+  .tg-bubble { max-width: 85%; }
+  .tg-title { font-size: 0.9rem; }
+  .tg-header-left { gap: 10px; }
+}
